@@ -67,6 +67,12 @@ func TestVersion_Validate(t *testing.T) {
 		{name: "Invalid Metadata",
 			v:       Version{Major: "0", Minor: "0", Patchlevel: "0", Metadata: ",;"},
 			wantErr: true},
+		{name: "git commit metadata",
+			v:       Version{Major: "0", Minor: "0", Patchlevel: "0", Metadata: "git-77cf5ba"},
+			wantErr: false},
+		{name: "git commit tag",
+			v:       Version{Major: "0", Minor: "0", Patchlevel: "0", Metadata: "git.v1.2.3"},
+			wantErr: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
