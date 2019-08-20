@@ -103,7 +103,7 @@ func (v Version) VerboseString() string {
 
 	elems := []string{major, minor, patchlevel, preRelease, metadata, buildTime}
 
-	return fmt.Sprintf(`%s\n`, strings.Join(elems, `\n`))
+	return fmt.Sprintf("%s\n", strings.Join(elems, "\n"))
 }
 func (v Version) String() string {
 	vers := strings.Join([]string{v.Major, v.Minor, v.Patchlevel}, separator)

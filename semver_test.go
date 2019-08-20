@@ -193,7 +193,7 @@ func TestVersion_VerboseString(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.v.VerboseString(); got != tt.want {
-				t.Errorf("Version.VerboseString() =\nhave %v,\nwant %v", got, tt.want)
+				t.Errorf("Version.VerboseString() =\nhave %#v,\nwant %#v", got, tt.want)
 			}
 		})
 	}
