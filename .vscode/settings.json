@@ -1,0 +1,7 @@
+{
+    "go.buildFlags": [
+        // "-ldflags",
+        // "-X 'github.com/serverhorror/semver.defaultMetadata=$(git name-rev --tags --name-only --always --no-undefined $(git rev-parse HEAD))' -X 'github.com/serverhorror/semver.defaultBuildTime=bleargh'",
+        // "-X 'github.com/serverhorror/semver.defaultMetadata=<unknown>' -X 'github.com/serverhorror/semver.defaultBuildTime=bleargh'",
+    ]
+}
