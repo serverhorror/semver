@@ -2,6 +2,7 @@ package semver_test
 
 import (
 	"testing"
+	"time"
 
 	. "github.com/serverhorror/semver"
 )
@@ -162,6 +163,37 @@ func TestVersions_Less(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.v.Less(tt.args.i, tt.args.j); got != tt.want {
 				t.Errorf("Versions.Less() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestVersion_VerboseString(t *testing.T) {
+	ts := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
+	tests := []struct {
+		name string
+		v    Version
+		want string
+	}{
+		{name: "default",
+			v: func() Version {
+				v := Default()
+				v.Option(BuildTime(ts))
+				return v
+			}(),
+			want: `Major: "0"\nMinor: "0"\nPatchlevel: "0"\nPre Release: ""\nMetadata: ""\nBuild Time: "2009-11-10T23:00:00Z"\n`},
+		{name: "default",
+			v: func() Version {
+				v := Version{Major: "1"}
+				v.Option(BuildTime(ts))
+				return v
+			}(),
+			want: `Major: "1"\nMinor: ""\nPatchlevel: ""\nPre Release: ""\nMetadata: ""\nBuild Time: "2009-11-10T23:00:00Z"\n`},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.v.VerboseString(); got != tt.want {
+				t.Errorf("Version.VerboseString() =\nhave %v,\nwant %v", got, tt.want)
 			}
 		})
 	}

@@ -1,9 +1,11 @@
 package semver
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 )
@@ -20,6 +22,7 @@ var (
 	defaultPatchlevel = "0"
 	defaultPreRelease = ""
 	defaultMetadata   = ""
+	defaultBuildTime  = time.Now().Format(time.RFC3339Nano)
 
 	ErrVersionInvalid = errors.New("Invalid version")
 )
@@ -31,6 +34,8 @@ func Default() Version {
 		Patchlevel: defaultPatchlevel,
 		PreRelease: defaultPreRelease,
 		Metadata:   defaultMetadata,
+
+		buildTime: defaultBuildTime,
 	}
 }
 
@@ -41,10 +46,20 @@ type Version struct {
 	PreRelease string
 	Metadata   string
 
-	prefix string
+	buildTime string
+	prefix    string
 }
 
 type option func(v *Version) option
+
+// BuildTime sets the Versions prefix to p.
+func BuildTime(t time.Time) option {
+	return func(v *Version) option {
+		previous := v.buildTime
+		v.buildTime = t.Format(time.RFC3339Nano)
+		return Prefix(previous)
+	}
+}
 
 // Prefix sets the Versions prefix to p.
 func Prefix(p string) option {
@@ -78,6 +93,18 @@ func (v Version) Validate() error {
 	return nil
 }
 
+func (v Version) VerboseString() string {
+	major := fmt.Sprintf("Major: %#v", v.Major)
+	minor := fmt.Sprintf("Minor: %#v", v.Minor)
+	patchlevel := fmt.Sprintf("Patchlevel: %#v", v.Patchlevel)
+	preRelease := fmt.Sprintf("Pre Release: %#v", v.PreRelease)
+	metadata := fmt.Sprintf("Metadata: %#v", v.Metadata)
+	buildTime := fmt.Sprintf("Build Time: %#v", v.buildTime)
+
+	elems := []string{major, minor, patchlevel, preRelease, metadata, buildTime}
+
+	return fmt.Sprintf(`%s\n`, strings.Join(elems, `\n`))
+}
 func (v Version) String() string {
 	vers := strings.Join([]string{v.Major, v.Minor, v.Patchlevel}, separator)
 	if v.PreRelease != "" {
