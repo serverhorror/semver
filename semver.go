@@ -22,7 +22,7 @@ var (
 	defaultPatchlevel = "0"
 	defaultPreRelease = ""
 	defaultMetadata   = ""
-	defaultBuildTime  = "<unknown>" // time.Now().Format(time.RFC3339Nano)
+	defaultBuildTime  = time.Now().Format(time.RFC3339Nano)
 
 	ErrVersionInvalid = errors.New("Invalid version")
 )
