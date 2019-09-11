@@ -22,7 +22,7 @@ var (
 	defaultPatchlevel = "0"
 	defaultPreRelease = ""
 	defaultMetadata   = ""
-	defaultBuildTime  = time.Now().Format(time.RFC3339Nano)
+	defaultBuildTime  = "2001-01-01T01:01:01Z"
 
 	ErrVersionInvalid = errors.New("Invalid version")
 )
@@ -52,7 +52,7 @@ type Version struct {
 
 type option func(v *Version) option
 
-// BuildTime sets the Versions prefix to p.
+// BuildTime sets buildTime to t.
 func BuildTime(t time.Time) option {
 	return func(v *Version) option {
 		previous := v.buildTime
